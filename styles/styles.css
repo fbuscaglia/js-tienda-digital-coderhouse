@@ -1,7 +1,10 @@
-*, body {
-    
+* {
     margin: 0;
     padding: 0;
+}
+
+body {
+    background-color: #efefef;
 }
 
 .producto {
@@ -13,4 +16,28 @@
 
 #contenedor-productos {
     justify-content: center;
+}
+
+.contenedor-carrito {
+    background-color: rgb(55, 255, 0);
+}
+
+.modal-contenedor {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-carrito {
+    display: block;
+    margin: auto;
+    background-color: white;
+    width: 40%;
+    padding: 20px;
+    /* margin-top: auto; */
 }

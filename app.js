@@ -1,6 +1,17 @@
 const contenedorProductos = document.getElementById("contenedor-productos");
+const contenedorCarrito = document.getElementById("carrito-contenedor");
+const contadorCarrito = document.getElementById("contadorCarrito");
+const precioTotal = document.getElementById("precioTotal");
 
-let carrito = []
+let carrito = [];
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger",
+  },
+  buttonsStyling: false,
+});
 
 let stockProductos = [
   {
@@ -9,6 +20,7 @@ let stockProductos = [
     tipo: "lenceria",
     descripcion: "Pieza de lenceria",
     precio: 1200,
+    cantidad: 1,
     img: "/assets/conjunto.jfif",
   },
   {
@@ -17,6 +29,7 @@ let stockProductos = [
     tipo: "calzado",
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
+    cantidad: 1,
     img: "/assets/conjunto.jfif",
   },
   {
@@ -25,6 +38,7 @@ let stockProductos = [
     tipo: "lenceria",
     descripcion: "Pieza de lenceria",
     precio: 1200,
+    cantidad: 1,
     img: "/assets/conjunto.jfif",
   },
   {
@@ -33,6 +47,7 @@ let stockProductos = [
     tipo: "calzado",
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
+    cantidad: 1,
     img: "/assets/conjunto.jfif",
   },
   {
@@ -41,6 +56,7 @@ let stockProductos = [
     tipo: "calzado",
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
+    cantidad: 1,
     img: "/assets/conjunto.jfif",
   },
   {
@@ -49,6 +65,7 @@ let stockProductos = [
     tipo: "lenceria",
     descripcion: "Pieza de lenceria",
     precio: 1200,
+    cantidad: 1,
     img: "/assets/conjunto.jfif",
   },
 ];
@@ -69,55 +86,106 @@ stockProductos.forEach((producto) => {
             <p>$${producto.precio}</p>
             <button
               id='agregar${producto.id}'
-              onClick='formaDePago(${producto.id})'
+              onClick='agregarAlCarrito(${producto.id})'
               class="btn btn-primary float-right"
-              >Comprar <i class="fa fa-shopping-cart></i>"</button
+              >Agregar <i class="fa-solid fa-plus ml-1"></i></button
             >
           </div>
         </div>
   `;
   contenedorProductos.appendChild(div);
-
-  // const boton = document.getElementById('agregar${producto.id}')
-
-  // boton.addEventListener('click', () => {
-  //   formaDePago(producto.id)
-  // })
 });
 
-const formaDePago = (productoId) => {
+const agregarAlCarrito = (productoId) => {
   const producto = stockProductos.find((prodId) => prodId.id === productoId);
+  carrito.push(producto);
+  actualizarCarrito();
+};
+let total = 0;
 
-  let valor = producto.precio;
-  let nombre = producto.nombre;
+const actualizarCarrito = () => {
+  contenedorCarrito.innerHTML = "";
+  carrito.forEach((prod) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <p>${prod.nombre}</p>
+    <p>${prod.precio}</p>
+    <p>Cantidad: <span id='cantidad'>${prod.cantidad}</span></p>
+    <button onClick="eliminarItem(${prod.id})" class="btn btn-danger"> Eliminar </button>
+    `;
 
-  let paymentMethod = prompt(
-    `${nombre} cuesta $${valor}. Como quieres abonar? Los metodos validos son Tarjeta, Transferencia o Efectivo`
-  ).toLowerCase();
+    contenedorCarrito.appendChild(div);
+  });
+  precioTotal.innerText = carrito
+    .map((item) => item.precio)
+    .reduce((prev, current) => prev + current, total);
 
-  switch (paymentMethod) {
-    case "tarjeta":
-      return alert(
-        (text = `El precio sobre la compra de tu ${nombre} se mantiene igual. El costo es $${valor}`)
-      );
+  contadorCarrito.innerText = carrito.length;
+};
 
-    case "transferencia":
-      return alert(
-        (text = `Tenés un descuento del 10% sobre la compra de tu ${nombre}. El precio pasa a ser $${
-          valor * 0.9
-        }`)
-      );
+const eliminarItem = (prodId) => {
+  const item = carrito.find((prod) => prod.id === prodId);
+  const indice = carrito.indexOf(item);
+  carrito.splice(indice, 1);
+  actualizarCarrito();
+};
 
-    case "efectivo":
-      return alert(
-        (text = `Tenés un descuento del 20% sobre la compra de tu ${nombre}. El precio pasa a ser $${
-          valor * 0.8
-        }`)
-      );
+const pagar = (carrito) => {
+  let inicial = 0;
+  const costoTotal = carrito.reduce((prev, current) => prev + current, inicial);
+  console.log(`El precio total es: $${costoTotal}`);
 
-    default:
-      return alert((text = "No conozco ese metodo de pago."));
+  swalWithBootstrapButtons
+    .fire({
+      title: `Total a pagar ${costoTotal}`,
+      text: "Desea continuar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Si",
+      cancelButtonText: "Sigo mirando",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        swalWithBootstrapButtons.fire(
+          "Compra confirmada!",
+          "Vuelva pronto!",
+          "success"
+        );
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          "Cancelado",
+          "Segui mirando tranquilo y despues compras",
+          "error"
+        );
+      }
+    });
+};
+
+const abrirCarrito = () => {
+  let x = document.getElementById("carrito");
+  if (carrito.length > 0) {
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  } else {
+    x.style.display = "none";
   }
 };
 
-// console.log(formaDePago())
+const cerrarCarrito = () => {
+  let x = document.getElementById("carrito");
+  if (x.style.display !== "none") {
+    x.style.display = "none";
+  }
+};
+
+const vaciarCarrito = () => {
+  carrito.length = 0;
+  actualizarCarrito();
+};
