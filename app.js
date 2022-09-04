@@ -71,10 +71,10 @@ let stockProductos = [
 ];
 
 stockProductos.forEach((producto) => {
-  const div = document.createElement("div");
+  const div = document.createElement("span");
   div.classList.add("producto");
   div.innerHTML = `
-        <div class="inline-block card">
+        <span class="card">
           <img
             class="card-img-top"
             src=${producto.img}
@@ -83,7 +83,7 @@ stockProductos.forEach((producto) => {
           <div class="card-body">
             <h4 class="card-title">${producto.nombre}</h4>
             <p class="card-text">${producto.descripcion}</p>
-            <p>$${producto.precio}</p>
+            <p class="card-text">$${producto.precio}</p>
             <button
               id='agregar${producto.id}'
               onClick='agregarAlCarrito(${producto.id})'
@@ -91,7 +91,7 @@ stockProductos.forEach((producto) => {
               >Agregar <i class="fa-solid fa-plus ml-1"></i></button
             >
           </div>
-        </div>
+        </span>
   `;
   contenedorProductos.appendChild(div);
 });
@@ -99,6 +99,13 @@ stockProductos.forEach((producto) => {
 const agregarAlCarrito = (productoId) => {
   const producto = stockProductos.find((prodId) => prodId.id === productoId);
   carrito.push(producto);
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Producto Agregado",
+    showConfirmButton: false,
+    timer: 1500,
+  });
   actualizarCarrito();
 };
 let total = 0;
@@ -126,8 +133,24 @@ const actualizarCarrito = () => {
 const eliminarItem = (prodId) => {
   const item = carrito.find((prod) => prod.id === prodId);
   const indice = carrito.indexOf(item);
-  carrito.splice(indice, 1);
-  actualizarCarrito();
+  Swal.fire({
+    title: "Estas seguro?",
+    text: "Despues podes volver a agregarlo.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Borrar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire("Listo!", "Articulo borrado.", "success");
+      carrito.splice(indice, 1);
+      actualizarCarrito();
+    }
+  });
+  
+
 };
 
 const pagar = (carrito) => {
@@ -186,6 +209,20 @@ const cerrarCarrito = () => {
 };
 
 const vaciarCarrito = () => {
-  carrito.length = 0;
-  actualizarCarrito();
+  Swal.fire({
+    title: "Estas seguro?",
+    text: "Estas a punto de vaciar el carrito.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Borrar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire("Listo!", "Tu carrito esta vacio.", "success");
+      carrito.length = 0;
+      actualizarCarrito();
+    }
+  });
 };
