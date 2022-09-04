@@ -21,7 +21,7 @@ let stockProductos = [
     descripcion: "Pieza de lenceria",
     precio: 1200,
     cantidad: 1,
-    img: "/assets/conjunto.jfif",
+    img: "assets/conjunto.jfif",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ let stockProductos = [
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
     cantidad: 1,
-    img: "/assets/conjunto.jfif",
+    img: "assets/pantuflas.jpg",
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ let stockProductos = [
     descripcion: "Pieza de lenceria",
     precio: 1200,
     cantidad: 1,
-    img: "/assets/conjunto.jfif",
+    img: "assets/conjunto.jfif",
   },
   {
     id: 4,
@@ -48,7 +48,7 @@ let stockProductos = [
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
     cantidad: 1,
-    img: "/assets/conjunto.jfif",
+    img: "assets/pantuflas.jpg",
   },
   {
     id: 5,
@@ -57,7 +57,7 @@ let stockProductos = [
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
     cantidad: 1,
-    img: "/assets/conjunto.jfif",
+    img: "assets/pantuflas.jpg",
   },
   {
     id: 6,
@@ -66,7 +66,7 @@ let stockProductos = [
     descripcion: "Pieza de lenceria",
     precio: 1200,
     cantidad: 1,
-    img: "/assets/conjunto.jfif",
+    img: "assets/conjunto.jfif",
   },
 ];
 
