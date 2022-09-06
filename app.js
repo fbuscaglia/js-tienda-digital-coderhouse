@@ -1,18 +1,13 @@
+// DEFINICION DE VARIABLES
+
 const contenedorProductos = document.getElementById("contenedor-productos");
 const contenedorCarrito = document.getElementById("carrito-contenedor");
 const contadorCarrito = document.getElementById("contadorCarrito");
 const precioTotal = document.getElementById("precioTotal");
+const subTotal = document.getElementById("subtotal");
 
 let carrito = [];
-
-const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: "btn btn-success",
-    cancelButton: "btn btn-danger",
-  },
-  buttonsStyling: false,
-});
-
+let total = 0;
 let stockProductos = [
   {
     id: 1,
@@ -57,7 +52,7 @@ let stockProductos = [
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
     cantidad: 1,
-    img: "assets/pantuflas.jpg",
+    img: "assets/conjunto.jfif",
   },
   {
     id: 6,
@@ -69,6 +64,15 @@ let stockProductos = [
     img: "assets/conjunto.jfif",
   },
 ];
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger",
+  },
+  buttonsStyling: false,
+});
+
+// CREACION DE ITEMS
 
 stockProductos.forEach((producto) => {
   const div = document.createElement("span");
@@ -96,38 +100,66 @@ stockProductos.forEach((producto) => {
   contenedorProductos.appendChild(div);
 });
 
-const agregarAlCarrito = (productoId) => {
-  const producto = stockProductos.find((prodId) => prodId.id === productoId);
-  carrito.push(producto);
-  Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Producto Agregado",
-    showConfirmButton: false,
-    timer: 1500,
-  });
-  actualizarCarrito();
-};
-let total = 0;
+// FUNCIONES DEL CARRITO
 
 const actualizarCarrito = () => {
   contenedorCarrito.innerHTML = "";
   carrito.forEach((prod) => {
     const div = document.createElement("div");
+    div.classList.add("producto-carrito");
+    div.classList.add("col-10");
     div.innerHTML = `
-    <p>${prod.nombre}</p>
+    <div>
+    <p class="card-title">${prod.nombre}</p>
     <p>${prod.precio}</p>
     <p>Cantidad: <span id='cantidad'>${prod.cantidad}</span></p>
-    <button onClick="eliminarItem(${prod.id})" class="btn btn-danger"> Eliminar </button>
+    </div>
+    <button onClick="eliminarItem(${prod.id})" class="btn btn-danger"> Eliminar </button>  
     `;
 
     contenedorCarrito.appendChild(div);
   });
   precioTotal.innerText = carrito
-    .map((item) => item.precio)
+    .map((item) => item.precio * item.cantidad)
     .reduce((prev, current) => prev + current, total);
 
-  contadorCarrito.innerText = carrito.length;
+  contadorCarrito.innerText = carrito
+    .map((item) => item.cantidad)
+    .reduce((prev, current) => prev + current, total);
+
+  subTotal.innerText = carrito
+    .map((item) => item.precio * item.cantidad)
+    .reduce((prev, current) => prev + current, total);
+};
+
+const agregarAlCarrito = (productoId) => {
+  const existe = carrito.some((prod) => prod.id === productoId);
+
+  if (existe) {
+    carrito.map((prod) => {
+      if (prod.id === productoId) {
+        prod.cantidad++;
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Producto Agregado",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  } else {
+    const producto = stockProductos.find((prodId) => prodId.id === productoId);
+    carrito.push(producto);
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Producto Agregado",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+  actualizarCarrito();
 };
 
 const eliminarItem = (prodId) => {
@@ -149,43 +181,6 @@ const eliminarItem = (prodId) => {
       actualizarCarrito();
     }
   });
-  
-
-};
-
-const pagar = (carrito) => {
-  let inicial = 0;
-  const costoTotal = carrito.reduce((prev, current) => prev + current, inicial);
-  console.log(`El precio total es: $${costoTotal}`);
-
-  swalWithBootstrapButtons
-    .fire({
-      title: `Total a pagar ${costoTotal}`,
-      text: "Desea continuar?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Si",
-      cancelButtonText: "Sigo mirando",
-      reverseButtons: true,
-    })
-    .then((result) => {
-      if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          "Compra confirmada!",
-          "Vuelva pronto!",
-          "success"
-        );
-      } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
-          "Cancelado",
-          "Segui mirando tranquilo y despues compras",
-          "error"
-        );
-      }
-    });
 };
 
 const abrirCarrito = () => {
@@ -225,4 +220,43 @@ const vaciarCarrito = () => {
       actualizarCarrito();
     }
   });
+};
+
+const pagar = (carrito) => {
+  let inicial = 0;
+  const costoTotal = carrito
+    .map((item) => item.precio * item.cantidad)
+    .reduce((prev, current) => prev + current, inicial);
+  console.log(`El precio total es: $${costoTotal}`);
+
+  swalWithBootstrapButtons
+    .fire({
+      title: `Total a pagar $${costoTotal}`,
+      text: "Desea continuar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Si",
+      cancelButtonText: "Sigo mirando",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        swalWithBootstrapButtons.fire(
+          "Compra confirmada!",
+          "Vuelva pronto!",
+          "success"
+        );
+        carrito.length = 0;
+        actualizarCarrito();
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          "Cancelado",
+          "Segui mirando tranquilo y despues compras",
+          "error"
+        );
+      }
+    });
 };
