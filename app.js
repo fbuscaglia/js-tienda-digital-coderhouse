@@ -107,14 +107,22 @@ const actualizarCarrito = () => {
   carrito.forEach((prod) => {
     const div = document.createElement("div");
     div.classList.add("producto-carrito");
-    div.classList.add("col-10");
+    div.classList.add("col-12");
+    div.classList.add("my-2");
     div.innerHTML = `
-    <div>
-    <p class="card-title">${prod.nombre}</p>
-    <p>${prod.precio}</p>
-    <p>Cantidad: <span id='cantidad'>${prod.cantidad}</span></p>
-    </div>
-    <button onClick="eliminarItem(${prod.id})" class="btn btn-danger"> Eliminar </button>  
+    <table style="width:100%">
+      <tr style="width:100%">
+        <td>${prod.nombre}</td>
+        <td>$${prod.precio}</td>
+        <td><button onClick="restarItem(${prod.id})" class="btn btn-secondary">
+        <i class="fa-solid fa-minus"></i> 
+        </button> <span id='cantidad'>${prod.cantidad}</span>
+        <button onClick="sumarItem(${prod.id})" class="btn btn-success">
+        <i class="fa-solid fa-plus"></i>
+        </button></td>
+        <td><button onClick="eliminarItem(${prod.id})" class="btn btn-danger"> Eliminar </button></td>
+      </tr>
+    </table>
     `;
 
     contenedorCarrito.appendChild(div);
@@ -222,12 +230,25 @@ const vaciarCarrito = () => {
   });
 };
 
+const sumarItem = (prodId) => {
+  const item = carrito.find((prod) => prod.id === prodId);
+  item.cantidad++;
+  actualizarCarrito();
+};
+
+const restarItem = (prodId) => {
+  const item = carrito.find((prod) => prod.id === prodId);
+  if (item.cantidad > 1) {
+    item.cantidad--;
+    actualizarCarrito();
+  }
+};
+
 const pagar = (carrito) => {
   let inicial = 0;
   const costoTotal = carrito
     .map((item) => item.precio * item.cantidad)
     .reduce((prev, current) => prev + current, inicial);
-  console.log(`El precio total es: $${costoTotal}`);
 
   swalWithBootstrapButtons
     .fire({
