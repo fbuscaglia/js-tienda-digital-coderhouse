@@ -5,6 +5,7 @@ const contenedorCarrito = document.getElementById("carrito-contenedor");
 const contadorCarrito = document.getElementById("contadorCarrito");
 const precioTotal = document.getElementById("precioTotal");
 const subTotal = document.getElementById("subtotal");
+const ordenar = document.getElementById("ordenar")
 
 let carrito = [];
 let total = 0;
@@ -17,15 +18,17 @@ let stockProductos = [
     precio: 1200,
     cantidad: 1,
     img: "assets/conjunto.jfif",
+    destacado: true,
   },
   {
     id: 2,
     nombre: "Pantuflas negras",
     tipo: "calzado",
     descripcion: "Pantuflas ideales para el invierno",
-    precio: 1000,
+    precio: 1500,
     cantidad: 1,
     img: "assets/pantuflas3.png",
+    destacado: false,
   },
   {
     id: 3,
@@ -35,33 +38,37 @@ let stockProductos = [
     precio: 1200,
     cantidad: 1,
     img: "assets/conjunto.jfif",
+    destacado: true,
   },
   {
     id: 4,
     nombre: "Pantuflas rosas",
     tipo: "calzado",
     descripcion: "Pantuflas ideales para el invierno",
-    precio: 1000,
+    precio: 1800,
     cantidad: 1,
     img: "assets/pantuflas3.png",
+    destacado: false,
   },
   {
     id: 5,
     nombre: "Pantuflas verdes",
     tipo: "calzado",
     descripcion: "Pantuflas ideales para el invierno",
-    precio: 1000,
+    precio: 2000,
     cantidad: 1,
     img: "assets/pantuflas3.png",
+    destacado: false,
   },
   {
     id: 6,
     nombre: "Conjunto negro",
     tipo: "lenceria",
     descripcion: "Pieza de lenceria",
-    precio: 1200,
+    precio: 1100,
     cantidad: 1,
     img: "assets/conjunto.jfif",
+    destacado: true,
   },
 ];
 const swalWithBootstrapButtons = Swal.mixin({
@@ -72,15 +79,22 @@ const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: false,
 });
 
+const filtroPorPrecioAsc = (a, b) => a.precio - b.precio;
+const filtroPorPrecioDesc = (a, b) => b.precio - a.precio;
+
+const ordenDeArticulos = {
+  precioAsc: filtroPorPrecioAsc,
+  precioDesc: filtroPorPrecioDesc,
+};
+
 // CREACION DE ITEMS
 
-stockProductos.forEach((producto) => {
+stockProductos.sort(ordenDeArticulos.precioAsc).forEach((producto) => {
   const div = document.createElement("span");
   div.classList.add("my-2");
   div.classList.add("col-6");
   div.classList.add("col-md-4");
   div.classList.add("col-lg-3");
-  // div.classList.add("producto");
   div.innerHTML = `
         <span class="card">
           <img
@@ -110,7 +124,6 @@ const actualizarCarrito = () => {
   contenedorCarrito.innerHTML = "";
   carrito.forEach((prod) => {
     const div = document.createElement("div");
-    // div.classList.add("producto-carrito");
     div.classList.add("col-12");
     div.classList.add("my-2");
     div.innerHTML = `
@@ -274,7 +287,6 @@ const pagar = (carrito) => {
         carrito.length = 0;
         actualizarCarrito();
       } else if (
-        /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
       ) {
         swalWithBootstrapButtons.fire(
