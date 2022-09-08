@@ -16,40 +16,29 @@
       <button
         id="boton-carrito"
         onclick="abrirCarrito()"
-        class="btn btn-warning float-right mx-2"
+        class="btn btn-success float-right mx-2"
       >
         <i class="fas fa-shopping-cart"></i>
         <span id="contadorCarrito">0</span><br />Subtotal $<span id="subtotal"
           >0</span
         >
       </button>
-
-      <!-- <button
-        id="pagar"
-        onclick="pagar(carrito)"
-        class="btn btn-success float-right mx-2"
-      >
-        Pagar
-      </button> -->
     </header>
 
     <div class="container-fluid my-3">
       <h1 style="text-align: center">Mariettas Clothes</h1>
-      <hr class="w-75 mx-auto" />
+      <hr class="w-50 mx-auto" />
       <div class="container">
         <h2 class="my-3">Ropa en stock</h2>
       </div>
-      <!-- <div
-        id="contenedor-carrito"
-        class="container d-flex row justify-content-center"
-      ></div> -->
+
       <div class="d-flex justify-content-center">
         <div id="contenedor-productos" class="container d-flex row"></div>
       </div>
     </div>
     <div id="carrito" style="display: none" class="modal-contenedor">
-      <div class="modal-carrito">
-        <div class="d-flex row justify-content-between">
+      <div class="modal-carrito vh-100">
+        <div class="container-fluid d-flex row justify-content-between">
           <h3>Carrito</h3>
           <button
             id="carritoCerrar"
@@ -65,7 +54,7 @@
         >
           <!-- <span id="" class="ml-3 d-flex column"></span> -->
         </div>
-        <p class="precioProducto float-right">
+        <p class="precioProducto float-right font-weight-bold text-uppercase">
           Precio total: $ <span class="" id="precioTotal">0</span>
         </p>
         <button

@@ -25,7 +25,7 @@ let stockProductos = [
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
     cantidad: 1,
-    img: "assets/pantuflas.jpg",
+    img: "assets/pantuflas3.png",
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ let stockProductos = [
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
     cantidad: 1,
-    img: "assets/pantuflas.jpg",
+    img: "assets/pantuflas3.png",
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ let stockProductos = [
     descripcion: "Pantuflas ideales para el invierno",
     precio: 1000,
     cantidad: 1,
-    img: "assets/conjunto.jfif",
+    img: "assets/pantuflas3.png",
   },
   {
     id: 6,
@@ -76,7 +76,11 @@ const swalWithBootstrapButtons = Swal.mixin({
 
 stockProductos.forEach((producto) => {
   const div = document.createElement("span");
-  div.classList.add("producto");
+  div.classList.add("my-2");
+  div.classList.add("col-6");
+  div.classList.add("col-md-4");
+  div.classList.add("col-lg-3");
+  // div.classList.add("producto");
   div.innerHTML = `
         <span class="card">
           <img
@@ -106,12 +110,12 @@ const actualizarCarrito = () => {
   contenedorCarrito.innerHTML = "";
   carrito.forEach((prod) => {
     const div = document.createElement("div");
-    div.classList.add("producto-carrito");
+    // div.classList.add("producto-carrito");
     div.classList.add("col-12");
     div.classList.add("my-2");
     div.innerHTML = `
     <table style="width:100%">
-      <tr style="width:100%">
+      <tr class="d-flex column align-items-center justify-content-between" style="width:100%">
         <td>${prod.nombre}</td>
         <td>$${prod.precio}</td>
         <td><button onClick="restarItem(${prod.id})" class="btn btn-secondary">
@@ -174,7 +178,7 @@ const eliminarItem = (prodId) => {
   const item = carrito.find((prod) => prod.id === prodId);
   const indice = carrito.indexOf(item);
   Swal.fire({
-    title: "Estas seguro?",
+    title: "Estas a punto de eliminar este articulo del carrito",
     text: "Despues podes volver a agregarlo.",
     icon: "warning",
     showCancelButton: true,
@@ -184,7 +188,7 @@ const eliminarItem = (prodId) => {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire("Listo!", "Articulo borrado.", "success");
+      Swal.fire("¡Listo!", "Articulo borrado.", "success");
       carrito.splice(indice, 1);
       actualizarCarrito();
     }
@@ -213,7 +217,7 @@ const cerrarCarrito = () => {
 
 const vaciarCarrito = () => {
   Swal.fire({
-    title: "Estas seguro?",
+    title: "¿Estas seguro?",
     text: "Estas a punto de vaciar el carrito.",
     icon: "warning",
     showCancelButton: true,
@@ -223,7 +227,7 @@ const vaciarCarrito = () => {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire("Listo!", "Tu carrito esta vacio.", "success");
+      Swal.fire("¡Listo!", "Tu carrito esta vacio.", "success");
       carrito.length = 0;
       actualizarCarrito();
     }
@@ -253,7 +257,7 @@ const pagar = (carrito) => {
   swalWithBootstrapButtons
     .fire({
       title: `Total a pagar $${costoTotal}`,
-      text: "Desea continuar?",
+      text: "¿Desea continuar?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Si",
@@ -263,8 +267,8 @@ const pagar = (carrito) => {
     .then((result) => {
       if (result.isConfirmed) {
         swalWithBootstrapButtons.fire(
-          "Compra confirmada!",
-          "Vuelva pronto!",
+          "¡Compra confirmada!",
+          "¡Vuelva pronto!",
           "success"
         );
         carrito.length = 0;
