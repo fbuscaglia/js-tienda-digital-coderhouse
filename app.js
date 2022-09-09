@@ -5,7 +5,6 @@ const contenedorCarrito = document.getElementById("carrito-contenedor");
 const contadorCarrito = document.getElementById("contadorCarrito");
 const precioTotal = document.getElementById("precioTotal");
 const subTotal = document.getElementById("subtotal");
-const ordenar = document.getElementById("precio-desc");
 
 let carrito = [];
 let total = 0;
@@ -19,6 +18,7 @@ let stockProductos = [
     cantidad: 1,
     img: "assets/conjunto.jfif",
     destacado: true,
+    ventas: 23,
   },
   {
     id: 2,
@@ -29,6 +29,7 @@ let stockProductos = [
     cantidad: 1,
     img: "assets/pantuflas3.png",
     destacado: false,
+    ventas: 29,
   },
   {
     id: 3,
@@ -39,6 +40,7 @@ let stockProductos = [
     cantidad: 1,
     img: "assets/conjunto.jfif",
     destacado: true,
+    ventas: 24,
   },
   {
     id: 4,
@@ -49,6 +51,7 @@ let stockProductos = [
     cantidad: 1,
     img: "assets/pantuflas3.png",
     destacado: false,
+    ventas: 22,
   },
   {
     id: 5,
@@ -59,6 +62,7 @@ let stockProductos = [
     cantidad: 1,
     img: "assets/pantuflas3.png",
     destacado: false,
+    ventas: 13,
   },
   {
     id: 6,
@@ -69,6 +73,7 @@ let stockProductos = [
     cantidad: 1,
     img: "assets/conjunto.jfif",
     destacado: true,
+    ventas: 230,
   },
 ];
 const swalWithBootstrapButtons = Swal.mixin({
@@ -81,10 +86,12 @@ const swalWithBootstrapButtons = Swal.mixin({
 
 const filtroPorPrecioAsc = (a, b) => a.precio - b.precio;
 const filtroPorPrecioDesc = (a, b) => b.precio - a.precio;
+const filtroPorMasVendidos = (a, b) => b.ventas - a.ventas;
 
 const ordenDeArticulos = {
   precioAsc: filtroPorPrecioAsc,
   precioDesc: filtroPorPrecioDesc,
+  masVendidos: filtroPorMasVendidos
 };
 
 // ORDENAR ARTICULOS
@@ -123,6 +130,39 @@ const ordenarAsc = () => {
   });
 };
 
+const ordenarMasVendidos = () => {
+  while (contenedorProductos.firstChild) {
+    contenedorProductos.removeChild(contenedorProductos.firstChild);
+  }
+  stockProductos.sort(ordenDeArticulos.masVendidos).forEach((producto) => {
+    const div = document.createElement("span");
+    div.classList.add("my-2");
+    div.classList.add("col-6");
+    div.classList.add("col-md-4");
+    div.classList.add("col-lg-3");
+    div.innerHTML = `
+          <span class="card">
+            <img
+              class="card-img-top"
+              src=${producto.img}
+              alt=""
+            />
+            <div class="card-body">
+              <h4 class="card-title">${producto.nombre}</h4>
+              <p class="card-text">${producto.descripcion}</p>
+              <p class="card-text">$${producto.precio}</p>
+              <button
+                id='agregar${producto.id}'
+                onClick='agregarAlCarrito(${producto.id})'
+                class="btn btn-primary float-right"
+                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
+              >
+            </div>
+          </span>
+    `;
+    contenedorProductos.appendChild(div);
+  });
+};
 const ordenarDesc = () => {
   while (contenedorProductos.firstChild) {
     contenedorProductos.removeChild(contenedorProductos.firstChild);

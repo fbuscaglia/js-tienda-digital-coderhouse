@@ -27,12 +27,16 @@
     <div class="form-group">
       <label for="exampleSelect1" class="form-label mt-4">Ordenar por: </label>
       <select class="form-select" id="ordenar">
-        <option id="precio-desc" onclick="ordenarDesc()">Precio descendente</option>
-        <option id="precio-asc" onclick="ordenarAsc()">Precio ascendente</option>
-        <option>Mas vendidos</option>
-        <option>Menos vendidos</option>
-        <option>Mas nuevos</option>
-        <option>Menos nuevos</option>
+        <option>--</option>
+        <option id="precio-desc" onclick="ordenarDesc()">
+          Precio más alto
+        </option>
+        <option id="precio-asc" onclick="ordenarAsc()">Precio más bajo</option>
+        <option id="mas-vendidos" onclick="ordenarMasVendidos()">
+          Los más vendidos
+        </option>
+        <option>Mejor valorados</option>
+        <option>Mejor descuento</option>
       </select>
     </div>
 
