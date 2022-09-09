@@ -5,7 +5,7 @@ const contenedorCarrito = document.getElementById("carrito-contenedor");
 const contadorCarrito = document.getElementById("contadorCarrito");
 const precioTotal = document.getElementById("precioTotal");
 const subTotal = document.getElementById("subtotal");
-const ordenar = document.getElementById("ordenar")
+const ordenar = document.getElementById("precio-desc");
 
 let carrito = [];
 let total = 0;
@@ -87,9 +87,79 @@ const ordenDeArticulos = {
   precioDesc: filtroPorPrecioDesc,
 };
 
+// ORDENAR ARTICULOS
+
+const ordenarAsc = () => {
+  while (contenedorProductos.firstChild) {
+    contenedorProductos.removeChild(contenedorProductos.firstChild);
+  }
+  stockProductos.sort(ordenDeArticulos.precioAsc).forEach((producto) => {
+    const div = document.createElement("span");
+    div.classList.add("my-2");
+    div.classList.add("col-6");
+    div.classList.add("col-md-4");
+    div.classList.add("col-lg-3");
+    div.innerHTML = `
+          <span class="card">
+            <img
+              class="card-img-top"
+              src=${producto.img}
+              alt=""
+            />
+            <div class="card-body">
+              <h4 class="card-title">${producto.nombre}</h4>
+              <p class="card-text">${producto.descripcion}</p>
+              <p class="card-text">$${producto.precio}</p>
+              <button
+                id='agregar${producto.id}'
+                onClick='agregarAlCarrito(${producto.id})'
+                class="btn btn-primary float-right"
+                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
+              >
+            </div>
+          </span>
+    `;
+    contenedorProductos.appendChild(div);
+  });
+};
+
+const ordenarDesc = () => {
+  while (contenedorProductos.firstChild) {
+    contenedorProductos.removeChild(contenedorProductos.firstChild);
+  }
+  stockProductos.sort(ordenDeArticulos.precioDesc).forEach((producto) => {
+    const div = document.createElement("span");
+    div.classList.add("my-2");
+    div.classList.add("col-6");
+    div.classList.add("col-md-4");
+    div.classList.add("col-lg-3");
+    div.innerHTML = `
+          <span class="card">
+            <img
+              class="card-img-top"
+              src=${producto.img}
+              alt=""
+            />
+            <div class="card-body">
+              <h4 class="card-title">${producto.nombre}</h4>
+              <p class="card-text">${producto.descripcion}</p>
+              <p class="card-text">$${producto.precio}</p>
+              <button
+                id='agregar${producto.id}'
+                onClick='agregarAlCarrito(${producto.id})'
+                class="btn btn-primary float-right"
+                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
+              >
+            </div>
+          </span>
+    `;
+    contenedorProductos.appendChild(div);
+  });
+};
+
 // CREACION DE ITEMS
 
-stockProductos.sort(ordenDeArticulos.precioAsc).forEach((producto) => {
+stockProductos.forEach((producto) => {
   const div = document.createElement("span");
   div.classList.add("my-2");
   div.classList.add("col-6");
@@ -286,9 +356,7 @@ const pagar = (carrito) => {
         );
         carrito.length = 0;
         actualizarCarrito();
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
           "Cancelado",
           "Segui mirando tranquilo y despues compras",
