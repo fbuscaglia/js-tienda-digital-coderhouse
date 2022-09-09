@@ -91,7 +91,7 @@ const filtroPorMasVendidos = (a, b) => b.ventas - a.ventas;
 const ordenDeArticulos = {
   precioAsc: filtroPorPrecioAsc,
   precioDesc: filtroPorPrecioDesc,
-  masVendidos: filtroPorMasVendidos
+  masVendidos: filtroPorMasVendidos,
 };
 
 // ORDENAR ARTICULOS
@@ -320,21 +320,29 @@ const eliminarItem = (prodId) => {
 
 const abrirCarrito = () => {
   let x = document.getElementById("carrito");
+  let boton = document.getElementById("boton-carrito");
+
   if (carrito.length > 0) {
     if (x.style.display === "none") {
       x.style.display = "block";
+      boton.style.zIndex= 0
     } else {
       x.style.display = "none";
+      boton.style.zIndex= 10
     }
   } else {
     x.style.display = "none";
+    boton.style.zIndex= 10
   }
 };
 
 const cerrarCarrito = () => {
   let x = document.getElementById("carrito");
+  let boton = document.getElementById("boton-carrito");
+
   if (x.style.display !== "none") {
     x.style.display = "none";
+    boton.style.zIndex= 1
   }
 };
 
