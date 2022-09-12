@@ -5,6 +5,10 @@ const contenedorCarrito = document.getElementById("carrito-contenedor");
 const contadorCarrito = document.getElementById("contadorCarrito");
 const precioTotal = document.getElementById("precioTotal");
 const subTotal = document.getElementById("subtotal");
+const botonCarrito = document.getElementById("boton-carrito");
+const carritoCerrar = document.getElementById("carritoCerrar");
+const carritoVaciar = document.getElementById("vaciar-carrito");
+const continuarCompra = document.getElementById("continuar-compra");
 
 let carrito = [];
 let total = 0;
@@ -95,6 +99,41 @@ const ordenDeArticulos = {
 };
 
 // ORDENAR ARTICULOS
+const ordenar = (opcion) => {
+  while (contenedorProductos.firstChild) {
+    contenedorProductos.removeChild(contenedorProductos.firstChild);
+  }
+  let sortear = ordenDeArticulos + opcion.value;
+
+  stockProductos.sort(sortear).forEach((producto) => {
+    const div = document.createElement("span");
+    div.classList.add("my-2");
+    div.classList.add("col-6");
+    div.classList.add("col-md-4");
+    div.classList.add("col-lg-3");
+    div.innerHTML = `
+          <span class="card">
+            <img
+              class="card-img-top"
+              src=${producto.img}
+              alt=""
+            />
+            <div class="card-body">
+              <h4 class="card-title">${producto.nombre}</h4>
+              <p class="card-text">${producto.descripcion}</p>
+              <p class="card-text">$${producto.precio}</p>
+              <button
+                id='agregar${producto.id}'
+                onClick='agregarAlCarrito(${producto.id})'
+                class="btn btn-primary float-right"
+                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
+              >
+            </div>
+          </span>
+    `;
+    contenedorProductos.appendChild(div);
+  });
+};
 
 const ordenarAsc = () => {
   while (contenedorProductos.firstChild) {
@@ -163,6 +202,7 @@ const ordenarMasVendidos = () => {
     contenedorProductos.appendChild(div);
   });
 };
+
 const ordenarDesc = () => {
   while (contenedorProductos.firstChild) {
     contenedorProductos.removeChild(contenedorProductos.firstChild);
@@ -325,14 +365,14 @@ const abrirCarrito = () => {
   if (carrito.length > 0) {
     if (x.style.display === "none") {
       x.style.display = "block";
-      boton.style.zIndex= 0
+      boton.style.zIndex = 0;
     } else {
       x.style.display = "none";
-      boton.style.zIndex= 10
+      boton.style.zIndex = 10;
     }
   } else {
     x.style.display = "none";
-    boton.style.zIndex= 10
+    boton.style.zIndex = 10;
   }
 };
 
@@ -342,7 +382,7 @@ const cerrarCarrito = () => {
 
   if (x.style.display !== "none") {
     x.style.display = "none";
-    boton.style.zIndex= 1
+    boton.style.zIndex = 1;
   }
 };
 
@@ -413,3 +453,14 @@ const pagar = (carrito) => {
       }
     });
 };
+
+const pago = () => {
+  pagar(carrito);
+};
+
+// EVENTOS
+
+botonCarrito.addEventListener("click", abrirCarrito);
+carritoCerrar.addEventListener("click", cerrarCarrito);
+carritoVaciar.addEventListener("click", vaciarCarrito);
+continuarCompra.addEventListener("click", pago);
