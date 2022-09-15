@@ -9,6 +9,8 @@ const botonCarrito = document.getElementById("boton-carrito");
 const carritoCerrar = document.getElementById("carritoCerrar");
 const carritoVaciar = document.getElementById("vaciar-carrito");
 const continuarCompra = document.getElementById("continuar-compra");
+const orden = document.getElementById("ordenar");
+const body = document.getElementById("body");
 
 let carrito = [];
 let total = 0;
@@ -98,7 +100,19 @@ const ordenDeArticulos = {
   masVendidos: filtroPorMasVendidos,
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("carrito")) {
+    carrito = JSON.parse(localStorage.getItem("carrito"));
+    actualizarCarrito();
+  }
+});
+
 // ORDENAR ARTICULOS
+
+orden.onchange = () => {
+  // let seleccionado = orden[]
+};
+
 const ordenar = (opcion) => {
   while (contenedorProductos.firstChild) {
     contenedorProductos.removeChild(contenedorProductos.firstChild);
@@ -107,10 +121,7 @@ const ordenar = (opcion) => {
 
   stockProductos.sort(sortear).forEach((producto) => {
     const div = document.createElement("span");
-    div.classList.add("my-2");
-    div.classList.add("col-6");
-    div.classList.add("col-md-4");
-    div.classList.add("col-lg-3");
+    div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
     div.innerHTML = `
           <span class="card">
             <img
@@ -141,10 +152,7 @@ const ordenarAsc = () => {
   }
   stockProductos.sort(ordenDeArticulos.precioAsc).forEach((producto) => {
     const div = document.createElement("span");
-    div.classList.add("my-2");
-    div.classList.add("col-6");
-    div.classList.add("col-md-4");
-    div.classList.add("col-lg-3");
+    div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
     div.innerHTML = `
           <span class="card">
             <img
@@ -175,10 +183,7 @@ const ordenarMasVendidos = () => {
   }
   stockProductos.sort(ordenDeArticulos.masVendidos).forEach((producto) => {
     const div = document.createElement("span");
-    div.classList.add("my-2");
-    div.classList.add("col-6");
-    div.classList.add("col-md-4");
-    div.classList.add("col-lg-3");
+    div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
     div.innerHTML = `
           <span class="card">
             <img
@@ -209,10 +214,7 @@ const ordenarDesc = () => {
   }
   stockProductos.sort(ordenDeArticulos.precioDesc).forEach((producto) => {
     const div = document.createElement("span");
-    div.classList.add("my-2");
-    div.classList.add("col-6");
-    div.classList.add("col-md-4");
-    div.classList.add("col-lg-3");
+    div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
     div.innerHTML = `
           <span class="card">
             <img
@@ -241,10 +243,7 @@ const ordenarDesc = () => {
 
 stockProductos.forEach((producto) => {
   const div = document.createElement("span");
-  div.classList.add("my-2");
-  div.classList.add("col-6");
-  div.classList.add("col-md-4");
-  div.classList.add("col-lg-3");
+  div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
   div.innerHTML = `
         <span class="card">
           <img
@@ -293,6 +292,7 @@ const actualizarCarrito = () => {
     `;
 
     contenedorCarrito.appendChild(div);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
   });
   precioTotal.innerText = carrito
     .map((item) => item.precio * item.cantidad)
