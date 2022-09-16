@@ -26,21 +26,8 @@
       <div class="container">
         <h2 class="my-3">Ropa en stock</h2>
       </div>
-      <div class="form-group">
-        <label for="exampleSelect1" class="form-label mt-4"
-          >Ordenar por:
-        </label>
-        <select class="form-select" id="ordenar" onchange="console.log('this', this);">
-          <option>--</option>
-          <option value="precioDesc" id="precio-desc">Precio más alto</option>
-          <option value="precioAsc" id="precio-asc">Precio más bajo</option>
-          <option value="masVendidos" id="mas-vendidos">
-            Los más vendidos
-          </option>
-          <option>Mejor valorados</option>
-          <option>Mejor descuento</option>
-        </select>
-      </div>
+      <p>Ordenar por:</p>
+      <div class="btn-group" role="group" id="button-group"></div>
       <div class="d-flex justify-content-center">
         <div id="contenedor-productos" class="container d-flex row"></div>
       </div>
@@ -68,10 +55,9 @@
         </button>
       </div>
     </div>
-
+    
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./app.js"></script>
-
     <script
       src="https://kit.fontawesome.com/d0d6ae25b4.js"
       crossorigin="anonymous"

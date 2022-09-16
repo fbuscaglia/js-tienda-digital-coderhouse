@@ -9,10 +9,10 @@ const botonCarrito = document.getElementById("boton-carrito");
 const carritoCerrar = document.getElementById("carritoCerrar");
 const carritoVaciar = document.getElementById("vaciar-carrito");
 const continuarCompra = document.getElementById("continuar-compra");
-const orden = document.getElementById("ordenar");
-const body = document.getElementById("body");
+const buttonGroup = document.getElementById("button-group");
 
 let carrito = [];
+
 let total = 0;
 let stockProductos = [
   {
@@ -23,7 +23,7 @@ let stockProductos = [
     precio: 1200,
     cantidad: 1,
     img: "assets/conjunto.jfif",
-    destacado: true,
+    destacado: 1,
     ventas: 23,
   },
   {
@@ -34,7 +34,7 @@ let stockProductos = [
     precio: 1500,
     cantidad: 1,
     img: "assets/pantuflas3.png",
-    destacado: false,
+    destacado: 1,
     ventas: 29,
   },
   {
@@ -45,7 +45,7 @@ let stockProductos = [
     precio: 1200,
     cantidad: 1,
     img: "assets/conjunto.jfif",
-    destacado: true,
+    destacado: 1,
     ventas: 24,
   },
   {
@@ -56,7 +56,7 @@ let stockProductos = [
     precio: 1800,
     cantidad: 1,
     img: "assets/pantuflas3.png",
-    destacado: false,
+    destacado: 0,
     ventas: 22,
   },
   {
@@ -67,7 +67,7 @@ let stockProductos = [
     precio: 2000,
     cantidad: 1,
     img: "assets/pantuflas3.png",
-    destacado: false,
+    destacado: 0,
     ventas: 13,
   },
   {
@@ -78,7 +78,7 @@ let stockProductos = [
     precio: 1100,
     cantidad: 1,
     img: "assets/conjunto.jfif",
-    destacado: true,
+    destacado: 1,
     ventas: 230,
   },
 ];
@@ -93,12 +93,16 @@ const swalWithBootstrapButtons = Swal.mixin({
 const filtroPorPrecioAsc = (a, b) => a.precio - b.precio;
 const filtroPorPrecioDesc = (a, b) => b.precio - a.precio;
 const filtroPorMasVendidos = (a, b) => b.ventas - a.ventas;
+const filtroPorDestacado = (a, b) => a > 0;
 
-const ordenDeArticulos = {
-  precioAsc: filtroPorPrecioAsc,
-  precioDesc: filtroPorPrecioDesc,
-  masVendidos: filtroPorMasVendidos,
-};
+let botonesFiltro = [
+  { valor: "Más Vendidos", filtro: filtroPorMasVendidos },
+  { valor: "Mayor Precio", filtro: filtroPorPrecioDesc },
+  { valor: "Menor Precio", filtro: filtroPorPrecioAsc },
+  { valor: "Destacados", filtro: filtroPorDestacado },
+];
+
+// LOCALSTORAGE
 
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("carrito")) {
@@ -109,110 +113,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ORDENAR ARTICULOS
 
-orden.onchange = () => {
-  // let seleccionado = orden[]
-};
+botonesFiltro.forEach((boton) => {
+  const bot = document.createElement("div");
+  bot.classList.add();
+  bot.innerHTML = `
+  <div>
+    <button class="btn btn-secondary" onclick="ordenar(${boton.filtro})"> ${boton.valor}</button>
+  </div>
+ `;
+  buttonGroup.appendChild(bot);
+});
 
 const ordenar = (opcion) => {
   while (contenedorProductos.firstChild) {
     contenedorProductos.removeChild(contenedorProductos.firstChild);
   }
-  let sortear = ordenDeArticulos + opcion.value;
 
-  stockProductos.sort(sortear).forEach((producto) => {
-    const div = document.createElement("span");
-    div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
-    div.innerHTML = `
-          <span class="card">
-            <img
-              class="card-img-top"
-              src=${producto.img}
-              alt=""
-            />
-            <div class="card-body">
-              <h4 class="card-title">${producto.nombre}</h4>
-              <p class="card-text">${producto.descripcion}</p>
-              <p class="card-text">$${producto.precio}</p>
-              <button
-                id='agregar${producto.id}'
-                onClick='agregarAlCarrito(${producto.id})'
-                class="btn btn-primary float-right"
-                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
-              >
-            </div>
-          </span>
-    `;
-    contenedorProductos.appendChild(div);
-  });
-};
-
-const ordenarAsc = () => {
-  while (contenedorProductos.firstChild) {
-    contenedorProductos.removeChild(contenedorProductos.firstChild);
-  }
-  stockProductos.sort(ordenDeArticulos.precioAsc).forEach((producto) => {
-    const div = document.createElement("span");
-    div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
-    div.innerHTML = `
-          <span class="card">
-            <img
-              class="card-img-top"
-              src=${producto.img}
-              alt=""
-            />
-            <div class="card-body">
-              <h4 class="card-title">${producto.nombre}</h4>
-              <p class="card-text">${producto.descripcion}</p>
-              <p class="card-text">$${producto.precio}</p>
-              <button
-                id='agregar${producto.id}'
-                onClick='agregarAlCarrito(${producto.id})'
-                class="btn btn-primary float-right"
-                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
-              >
-            </div>
-          </span>
-    `;
-    contenedorProductos.appendChild(div);
-  });
-};
-
-const ordenarMasVendidos = () => {
-  while (contenedorProductos.firstChild) {
-    contenedorProductos.removeChild(contenedorProductos.firstChild);
-  }
-  stockProductos.sort(ordenDeArticulos.masVendidos).forEach((producto) => {
-    const div = document.createElement("span");
-    div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
-    div.innerHTML = `
-          <span class="card">
-            <img
-              class="card-img-top"
-              src=${producto.img}
-              alt=""
-            />
-            <div class="card-body">
-              <h4 class="card-title">${producto.nombre}</h4>
-              <p class="card-text">${producto.descripcion}</p>
-              <p class="card-text">$${producto.precio}</p>
-              <button
-                id='agregar${producto.id}'
-                onClick='agregarAlCarrito(${producto.id})'
-                class="btn btn-primary float-right"
-                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
-              >
-            </div>
-          </span>
-    `;
-    contenedorProductos.appendChild(div);
-  });
-};
-
-const ordenarDesc = () => {
-  while (contenedorProductos.firstChild) {
-    contenedorProductos.removeChild(contenedorProductos.firstChild);
-  }
-  stockProductos.sort(ordenDeArticulos.precioDesc).forEach((producto) => {
+  stockProductos.sort(opcion).forEach((producto) => {
     const div = document.createElement("span");
     div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
     div.innerHTML = `
@@ -402,6 +319,7 @@ const vaciarCarrito = () => {
       carrito.length = 0;
       actualizarCarrito();
     }
+    actualizarCarrito();
   });
 };
 
