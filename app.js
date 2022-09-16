@@ -270,6 +270,7 @@ const eliminarItem = (prodId) => {
     if (result.isConfirmed) {
       Swal.fire("¡Listo!", "Articulo borrado.", "success");
       carrito.splice(indice, 1);
+      localStorage[0] = 1 ? localStorage.removeItem("carrito") : "";
       actualizarCarrito();
     }
   });
@@ -317,6 +318,7 @@ const vaciarCarrito = () => {
     if (result.isConfirmed) {
       Swal.fire("¡Listo!", "Tu carrito esta vacio.", "success");
       carrito.length = 0;
+      localStorage.removeItem("carrito");
       actualizarCarrito();
     }
     actualizarCarrito();
@@ -361,6 +363,7 @@ const pagar = (carrito) => {
           "success"
         );
         carrito.length = 0;
+        localStorage.removeItem("carrito")
         actualizarCarrito();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
