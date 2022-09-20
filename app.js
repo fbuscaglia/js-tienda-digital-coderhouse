@@ -320,6 +320,7 @@ const vaciarCarrito = () => {
       carrito.length = 0;
       localStorage.removeItem("carrito");
       actualizarCarrito();
+      cerrarCarrito();
     }
     actualizarCarrito();
   });
@@ -362,8 +363,9 @@ const pagar = (carrito) => {
           "¡Vuelva pronto!",
           "success"
         );
+        cerrarCarrito();
         carrito.length = 0;
-        localStorage.removeItem("carrito")
+        localStorage.removeItem("carrito");
         actualizarCarrito();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
