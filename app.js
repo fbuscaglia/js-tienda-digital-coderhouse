@@ -271,7 +271,7 @@ const eliminarItem = (prodId) => {
       Swal.fire("¡Listo!", "Articulo borrado.", "success");
       carrito.splice(indice, 1);
       localStorage[0] = 1 ? localStorage.removeItem("carrito") : "";
-      actualizarCarrito();
+      carrito.length < 1 ? (cerrarCarrito(), actualizarCarrito()) : actualizarCarrito();
     }
   });
 };
