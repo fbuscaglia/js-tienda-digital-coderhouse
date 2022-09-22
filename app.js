@@ -79,7 +79,73 @@ let stockProductos = [
     cantidad: 1,
     img: "assets/conjunto.jfif",
     destacado: 1,
-    ventas: 230,
+    ventas: 2320,
+  },
+  {
+    id: 7,
+    nombre: "Conjunto negro",
+    tipo: "lenceria",
+    descripcion: "Pieza de lenceria",
+    precio: 1100,
+    cantidad: 1,
+    img: "assets/conjunto.jfif",
+    destacado: 1,
+    ventas: 2380,
+  },
+  {
+    id: 8,
+    nombre: "Conjunto negro",
+    tipo: "lenceria",
+    descripcion: "Pieza de lenceria",
+    precio: 1100,
+    cantidad: 1,
+    img: "assets/conjunto.jfif",
+    destacado: 0,
+    ventas: 21350,
+  },
+  {
+    id: 9,
+    nombre: "Conjunto negro",
+    tipo: "lenceria",
+    descripcion: "Pieza de lenceria",
+    precio: 1100,
+    cantidad: 1,
+    img: "assets/conjunto.jfif",
+    destacado: 1,
+    ventas: 2399,
+  },
+  {
+    id: 10,
+    nombre: "Conjunto negro",
+    tipo: "lenceria",
+    descripcion: "Pieza de lenceria",
+    precio: 4100,
+    cantidad: 1,
+    img: "assets/conjunto.jfif",
+    destacado: 0,
+    ventas: 2000,
+  },
+  {
+    id: 11,
+    nombre: "Conjunto negro",
+    tipo: "lenceria",
+    descripcion: "Pieza de lenceria",
+    precio: 200,
+    cantidad: 1,
+    img: "assets/conjunto.jfif",
+    destacado: 0,
+    ventas: 7230,
+  },
+  {
+    id: 12,
+    nombre: "Conjunto negro",
+    tipo: "lenceria",
+    descripcion: "Pieza de lenceria",
+    precio: 100,
+    cantidad: 1,
+    img: "assets/conjunto.jfif",
+    destacado: 1,
+    ventas: 2390,
   },
 ];
 const swalWithBootstrapButtons = Swal.mixin({
@@ -90,10 +156,12 @@ const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: false,
 });
 
+// TODO FILTRAR POR DESTACADOS
+
 const filtroPorPrecioAsc = (a, b) => a.precio - b.precio;
 const filtroPorPrecioDesc = (a, b) => b.precio - a.precio;
 const filtroPorMasVendidos = (a, b) => b.ventas - a.ventas;
-const filtroPorDestacado = (a, b) => a > 0;
+const filtroPorDestacado = (a, b) => b.destacado - a.destacado;
 
 let botonesFiltro = [
   { valor: "Más Vendidos", filtro: filtroPorMasVendidos },
@@ -128,7 +196,7 @@ const ordenar = (opcion) => {
   while (contenedorProductos.firstChild) {
     contenedorProductos.removeChild(contenedorProductos.firstChild);
   }
-
+console.log(opcion)
   stockProductos.sort(opcion).forEach((producto) => {
     const div = document.createElement("span");
     div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
@@ -171,7 +239,7 @@ stockProductos.forEach((producto) => {
           <div class="card-body">
             <h4 class="card-title">${producto.nombre}</h4>
             <p class="card-text">${producto.descripcion}</p>
-            <p class="card-text">$${producto.precio}</p>
+            <p class="card-text">$${producto.precio}</p>            
             <button
               id='agregar${producto.id}'
               onClick='agregarAlCarrito(${producto.id})'
@@ -236,7 +304,7 @@ const agregarAlCarrito = (productoId) => {
           icon: "success",
           title: "Producto Agregado",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 1000,
         });
       }
     });
@@ -248,7 +316,7 @@ const agregarAlCarrito = (productoId) => {
       icon: "success",
       title: "Producto Agregado",
       showConfirmButton: false,
-      timer: 1500,
+      timer: 1000,
     });
   }
   actualizarCarrito();
@@ -271,7 +339,9 @@ const eliminarItem = (prodId) => {
       Swal.fire("¡Listo!", "Articulo borrado.", "success");
       carrito.splice(indice, 1);
       localStorage[0] = 1 ? localStorage.removeItem("carrito") : "";
-      carrito.length < 1 ? (cerrarCarrito(), actualizarCarrito()) : actualizarCarrito();
+      carrito.length < 1
+        ? (cerrarCarrito(), actualizarCarrito())
+        : actualizarCarrito();
     }
   });
 };
@@ -279,6 +349,17 @@ const eliminarItem = (prodId) => {
 const abrirCarrito = () => {
   let x = document.getElementById("carrito");
   let boton = document.getElementById("boton-carrito");
+
+  Swal.fire({
+    title: "Carrito",
+    text: "Estas a punto de vaciar el carrito.",
+
+    showCancelButton: true,
+    confirmButtonColor: "green",
+    cancelButtonColor: "red",
+    confirmButtonText: "Comprar",
+    cancelButtonText: "Cancelar",
+  });
 
   if (carrito.length > 0) {
     if (x.style.display === "none") {
