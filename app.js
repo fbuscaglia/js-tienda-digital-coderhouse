@@ -350,16 +350,16 @@ const abrirCarrito = () => {
   let x = document.getElementById("carrito");
   let boton = document.getElementById("boton-carrito");
 
-  Swal.fire({
-    title: "Carrito",
-    text: "Estas a punto de vaciar el carrito.",
+  // Swal.fire({
+  //   title: "Carrito",
+  //   text: "Estas a punto de vaciar el carrito.",
 
-    showCancelButton: true,
-    confirmButtonColor: "green",
-    cancelButtonColor: "red",
-    confirmButtonText: "Comprar",
-    cancelButtonText: "Cancelar",
-  });
+  //   showCancelButton: true,
+  //   confirmButtonColor: "green",
+  //   cancelButtonColor: "red",
+  //   confirmButtonText: "Comprar",
+  //   cancelButtonText: "Cancelar",
+  // });
 
   if (carrito.length > 0) {
     if (x.style.display === "none") {
