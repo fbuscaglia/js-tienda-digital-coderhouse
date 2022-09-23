@@ -11,6 +11,11 @@ const carritoVaciar = document.getElementById("vaciar-carrito");
 const continuarCompra = document.getElementById("continuar-compra");
 const buttonGroup = document.getElementById("button-group");
 
+
+// TODO: 
+//      MEJORAR LOOK AND FEEL
+//      AGRANDAR LAS CARDS, MUCHO ESPACIO ENTRE CARDS
+
 let carrito = [];
 
 let total = 0;
@@ -148,6 +153,7 @@ let stockProductos = [
     ventas: 2390,
   },
 ];
+
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
     confirmButton: "btn btn-success",
@@ -156,7 +162,6 @@ const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: false,
 });
 
-// TODO FILTRAR POR DESTACADOS
 
 const filtroPorPrecioAsc = (a, b) => a.precio - b.precio;
 const filtroPorPrecioDesc = (a, b) => b.precio - a.precio;
