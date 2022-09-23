@@ -196,7 +196,6 @@ const ordenar = (opcion) => {
   while (contenedorProductos.firstChild) {
     contenedorProductos.removeChild(contenedorProductos.firstChild);
   }
-console.log(opcion)
   stockProductos.sort(opcion).forEach((producto) => {
     const div = document.createElement("span");
     div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
@@ -257,24 +256,20 @@ stockProductos.forEach((producto) => {
 const actualizarCarrito = () => {
   contenedorCarrito.innerHTML = "";
   carrito.forEach((prod) => {
-    const div = document.createElement("div");
-    div.classList.add("col-12");
-    div.classList.add("my-2");
-    div.innerHTML = `
-    <table style="width:100%">
-      <tr class="d-flex column align-items-center justify-content-between" style="width:100%">
-        <td>${prod.nombre}</td>
-        <td>$${prod.precio}</td>
-        <td><button onClick="restarItem(${prod.id})" class="btn btn-secondary">
-        <i class="fa-solid fa-minus"></i> 
-        </button> <span id='cantidad'>${prod.cantidad}</span>
-        <button onClick="sumarItem(${prod.id})" class="btn btn-success">
-        <i class="fa-solid fa-plus"></i>
-        </button></td>
-        <td><button onClick="eliminarItem(${prod.id})" class="btn btn-danger"> Eliminar </button></td>
-      </tr>
-    </table>
-    `;
+    const div = document.createElement("tr");
+    div.innerHTML = `<th scope="row">${prod.id}</th>
+    <td class="table__productos d-none d-md-flex">
+    <img src=${prod.img}  alt="">
+    </td>
+    <td> <h6 class="title">${prod.nombre}</h6></td>
+    <td class="table__price"><p>${prod.precio}</p></td>
+    <td> <button onClick="restarItem(${prod.id})" class="btn btn-secondary">
+          <i class="fa-solid fa-minus"></i>
+          </button> <span id='cantidad'>${prod.cantidad}</span>
+          <button onClick="sumarItem(${prod.id})" class="btn btn-success">
+          <i class="fa-solid fa-plus"></i>
+          </button></td>
+          <td><button onClick="eliminarItem(${prod.id})" class="btn btn-warning"> X </button></td>`;
 
     contenedorCarrito.appendChild(div);
     localStorage.setItem("carrito", JSON.stringify(carrito));

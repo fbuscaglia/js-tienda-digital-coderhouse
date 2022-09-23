@@ -34,16 +34,25 @@
     </div>
     <div id="carrito" style="display: none" class="modal-contenedor">
       <div class="modal-carrito vh-100">
-        <div class="container-fluid d-flex row justify-content-between">
+        <div class="container-fluid d-flex row justify-content-between mb-3">
           <h3>Carrito</h3>
           <button id="carritoCerrar" class="btn btn-danger">
             <i class="fas fa-close"></i>
           </button>
         </div>
-        <div
-          class="d-flex row wrap justify-content-center"
-          id="carrito-contenedor"
-        ></div>
+        <table class="table">
+          <thead>
+            <tr class="text-dark">
+              <th scope="col">#</th>
+              <th scope="col" class="d-none d-md-flex">Producto</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody id="carrito-contenedor" class="tbody"></tbody>
+        </table>
         <p class="precioProducto float-right font-weight-bold text-uppercase">
           Precio total: $ <span class="" id="precioTotal">0</span>
         </p>
