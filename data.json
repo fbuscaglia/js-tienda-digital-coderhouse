@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "nombre": "Conjunto rosa",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 1200,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 1,
+    "ventas": 23
+  },
+  {
+    "id": 2,
+    "nombre": "Pantuflas negras",
+    "tipo": "calzado",
+    "descripcion": "Pantuflas ideales para el invierno",
+    "precio": 1500,
+    "cantidad": 1,
+    "img": "assets/pantuflas3.png",
+    "destacado": 1,
+    "ventas": 29
+  },
+  {
+    "id": 3,
+    "nombre": "Conjunto rojo",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 1200,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 1,
+    "ventas": 24
+  },
+  {
+    "id": 4,
+    "nombre": "Pantuflas rosas",
+    "tipo": "calzado",
+    "descripcion": "Pantuflas ideales para el invierno",
+    "precio": 1800,
+    "cantidad": 1,
+    "img": "assets/pantuflas3.png",
+    "destacado": 0,
+    "ventas": 22
+  },
+  {
+    "id": 5,
+    "nombre": "Pantuflas verdes",
+    "tipo": "calzado",
+    "descripcion": "Pantuflas ideales para el invierno",
+    "precio": 2000,
+    "cantidad": 1,
+    "img": "assets/pantuflas3.png",
+    "destacado": 0,
+    "ventas": 13
+  },
+  {
+    "id": 6,
+    "nombre": "Conjunto negro",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 1100,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 1,
+    "ventas": 2320
+  },
+  {
+    "id": 7,
+    "nombre": "Conjunto negro",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 1100,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 1,
+    "ventas": 2380
+  },
+  {
+    "id": 8,
+    "nombre": "Conjunto negro",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 1100,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 0,
+    "ventas": 21350
+  },
+  {
+    "id": 9,
+    "nombre": "Conjunto negro",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 1100,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 1,
+    "ventas": 2399
+  },
+  {
+    "id": 10,
+    "nombre": "Conjunto negro",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 4100,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 0,
+    "ventas": 2000
+  },
+  {
+    "id": 11,
+    "nombre": "Conjunto negro",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 200,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 0,
+    "ventas": 7230
+  },
+  {
+    "id": 12,
+    "nombre": "Conjunto negro",
+    "tipo": "lenceria",
+    "descripcion": "Pieza de lenceria",
+    "precio": 100,
+    "cantidad": 1,
+    "img": "assets/conjunto.jfif",
+    "destacado": 1,
+    "ventas": 2390
+  }
+]

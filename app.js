@@ -11,148 +11,44 @@ const carritoVaciar = document.getElementById("vaciar-carrito");
 const continuarCompra = document.getElementById("continuar-compra");
 const buttonGroup = document.getElementById("button-group");
 
-
-// TODO: 
+// TODO:
 //      MEJORAR LOOK AND FEEL
-//      AGRANDAR LAS CARDS, MUCHO ESPACIO ENTRE CARDS
+//      HACER EL TOGGLE DEL CARRITO CON OFFCANVAS
 
 let carrito = [];
-
 let total = 0;
-let stockProductos = [
-  {
-    id: 1,
-    nombre: "Conjunto rosa",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 1200,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 1,
-    ventas: 23,
-  },
-  {
-    id: 2,
-    nombre: "Pantuflas negras",
-    tipo: "calzado",
-    descripcion: "Pantuflas ideales para el invierno",
-    precio: 1500,
-    cantidad: 1,
-    img: "assets/pantuflas3.png",
-    destacado: 1,
-    ventas: 29,
-  },
-  {
-    id: 3,
-    nombre: "Conjunto rojo",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 1200,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 1,
-    ventas: 24,
-  },
-  {
-    id: 4,
-    nombre: "Pantuflas rosas",
-    tipo: "calzado",
-    descripcion: "Pantuflas ideales para el invierno",
-    precio: 1800,
-    cantidad: 1,
-    img: "assets/pantuflas3.png",
-    destacado: 0,
-    ventas: 22,
-  },
-  {
-    id: 5,
-    nombre: "Pantuflas verdes",
-    tipo: "calzado",
-    descripcion: "Pantuflas ideales para el invierno",
-    precio: 2000,
-    cantidad: 1,
-    img: "assets/pantuflas3.png",
-    destacado: 0,
-    ventas: 13,
-  },
-  {
-    id: 6,
-    nombre: "Conjunto negro",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 1100,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 1,
-    ventas: 2320,
-  },
-  {
-    id: 7,
-    nombre: "Conjunto negro",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 1100,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 1,
-    ventas: 2380,
-  },
-  {
-    id: 8,
-    nombre: "Conjunto negro",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 1100,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 0,
-    ventas: 21350,
-  },
-  {
-    id: 9,
-    nombre: "Conjunto negro",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 1100,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 1,
-    ventas: 2399,
-  },
-  {
-    id: 10,
-    nombre: "Conjunto negro",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 4100,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 0,
-    ventas: 2000,
-  },
-  {
-    id: 11,
-    nombre: "Conjunto negro",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 200,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 0,
-    ventas: 7230,
-  },
-  {
-    id: 12,
-    nombre: "Conjunto negro",
-    tipo: "lenceria",
-    descripcion: "Pieza de lenceria",
-    precio: 100,
-    cantidad: 1,
-    img: "assets/conjunto.jfif",
-    destacado: 1,
-    ventas: 2390,
-  },
-];
+let stockProductos = [];
+
+const productos = fetch("data.json")
+  .then((res) => res.json())
+  .then((data) => {
+    data.forEach((prod) => {
+      const div = document.createElement("span");
+      div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
+      div.innerHTML = `
+          <span class="card">
+            <img
+              class="card-img-top"
+              src=${prod.img}
+              alt=""
+            />
+            <div class="card-body">
+              <h4 class="card-title">${prod.nombre}</h4>
+              <p class="card-text">${prod.descripcion}</p>
+              <p class="card-text">$${prod.precio}</p>            
+              <button
+                id='agregar${prod.id}'
+                onClick='agregarAlCarrito(${prod.id})'
+                class="btn btn-primary float-right"
+                >Agregar <i class="fa-solid fa-plus ml-1"></i></button
+              >
+            </div>
+          </span>
+    `;
+      contenedorProductos.appendChild(div);
+      stockProductos.push(prod);
+    });
+  });
 
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
@@ -161,7 +57,6 @@ const swalWithBootstrapButtons = Swal.mixin({
   },
   buttonsStyling: false,
 });
-
 
 const filtroPorPrecioAsc = (a, b) => a.precio - b.precio;
 const filtroPorPrecioDesc = (a, b) => b.precio - a.precio;
@@ -230,31 +125,31 @@ const ordenar = (opcion) => {
 
 // CREACION DE ITEMS
 
-stockProductos.forEach((producto) => {
-  const div = document.createElement("span");
-  div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
-  div.innerHTML = `
-        <span class="card">
-          <img
-            class="card-img-top"
-            src=${producto.img}
-            alt=""
-          />
-          <div class="card-body">
-            <h4 class="card-title">${producto.nombre}</h4>
-            <p class="card-text">${producto.descripcion}</p>
-            <p class="card-text">$${producto.precio}</p>            
-            <button
-              id='agregar${producto.id}'
-              onClick='agregarAlCarrito(${producto.id})'
-              class="btn btn-primary float-right"
-              >Agregar <i class="fa-solid fa-plus ml-1"></i></button
-            >
-          </div>
-        </span>
-  `;
-  contenedorProductos.appendChild(div);
-});
+// stockProductos.forEach((producto) => {
+//   const div = document.createElement("span");
+//   div.classList.add("my-2", "col-6", "col-md-4", "col-lg-3");
+//   div.innerHTML = `
+//         <span class="card">
+//           <img
+//             class="card-img-top"
+//             src=${producto.img}
+//             alt=""
+//           />
+//           <div class="card-body">
+//             <h4 class="card-title">${producto.nombre}</h4>
+//             <p class="card-text">${producto.descripcion}</p>
+//             <p class="card-text">$${producto.precio}</p>
+//             <button
+//               id='agregar${producto.id}'
+//               onClick='agregarAlCarrito(${producto.id})'
+//               class="btn btn-primary float-right"
+//               >Agregar <i class="fa-solid fa-plus ml-1"></i></button
+//             >
+//           </div>
+//         </span>
+//   `;
+//   contenedorProductos.appendChild(div);
+// });
 
 // FUNCIONES DEL CARRITO
 

@@ -47,12 +47,14 @@ body {
     top: 90px;
     right: 20px;
 }
-.carrito{
+
+.carrito {
     min-height: 80vh;
     max-width: 1000px;
     margin: 0 auto;
     width: 100%;
-  }
+}
+
 .table__productos {
     display: flex;
 }
@@ -74,6 +76,10 @@ body {
     margin-bottom: 20px;
 }
 
+#contenedor-productos {
+    max-width: 100%;
+}
+
 @media screen and (min-width: 598px) {
     .producto {
         max-width: 60%;
@@ -84,10 +90,24 @@ body {
     .producto {
         max-width: 45%;
     }
+
+    #contenedor-productos {
+        max-width: 80%;
+    }
 }
 
 @media screen and (min-width: 992px) {
     .producto {
         max-width: 20%;
+    }
+
+    #contenedor-productos {
+        max-width: 80%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    #contenedor-productos {
+        max-width: 70%;
     }
 }
